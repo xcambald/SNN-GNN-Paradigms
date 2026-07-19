@@ -229,7 +229,7 @@ for epoch in range(epochs):
     if val_ap > best_val_ap:
         best_val_ap = val_ap
         patience_counter = 0
-        torch.save(model.state_dict(), 'drive/gnn_snn_vahy/ST_best_model.pth')
+        torch.save(model.state_dict(), 'drive/gnn_snn_vahy/SG_best_model.pth')
     else:
         patience_counter += 1
 
@@ -239,9 +239,10 @@ for epoch in range(epochs):
 
 end = time.time()
 print(f"Elapsed time: {end-start:.1f} seconds | best val PR-AUC: {best_val_ap:.4f}")
+model.load_state_dict(torch.load('drive/MyDrive/gnn_snn_vahy/SG_best_model.pth'))
+model.eval()
 
 ### THRESHOLD SELECTION ###
-model.eval()
 val_probs, val_true = [], []
 with torch.no_grad():
     for inputs, labels in val_data_loader:
